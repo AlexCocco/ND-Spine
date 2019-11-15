@@ -1,0 +1,99 @@
+The model target is represented by comfort-related simulations of the
+vibrational response of the upper body of rotorcraft pilots and passengers. In
+this context, the model should be able to reproduce the \emph{average}, or
+\emph{most plausible} subject possessing a certain set of biometric
+characteristics, whilst it it is not useful to build a purely subject-specific
+model.   
+
+The model is fully parametrized and can be generated starting from a generic
+anthropometric dataset $\mathbf{s}$ comprising age, $a$, Body Mass Index
+$\mathrm{BMI}$, stature $h$ and gender $g$:
+\begin{equation}
+	\mathbf{s} = \begin{bmatrix} a &\mathrm{BMI} &h &g \end{bmatrix}^{T}
+	\label{eq:anthro_vect}
+\end{equation}
+A statistical model published by Shi et al.~\cite{SHI-2014-JB} is used to
+generate the most plausible ribcage geometry associated with the anthropometric
+parameters. The model of Shi et al. was derived from the analysis of thorax CT
+scans of 89 subjects, divided in 8 age groups and of both sexes. Image
+segmentation allowed to identify the position of 464 landmarks on the left side
+of each subject's ribcage (Cfr. Fig.~\ref{fig:ribcage-3d}). The positions of the
+landmarks were subjected to a PCA (Principal Component Analysis) following the
+procedure outlined by Allen et al.\ in \cite{ALLEN-2003-ACMTC}. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.8\textwidth]{\gfxdir ribcage}
+	\caption{Example of the generated ribcage landmarks point cloud, using
+	the model published by Shi et al.~\cite{SHI-2014-JB}. Values on the axes
+	are in mm.}
+	\label{fig:ribcage-3d}
+\end{figure}
+
+After generating the ribcage landmarks, a bounding box is fitted to them and its
+dimensions $x, y, z$ are compared to those of the reference subject used in the
+work of Kitazaki and Griffin~\cite{KITAZAKI1997} to yield three scaling
+coefficients:
+\begin{subequations}
+	\begin{align}
+		\lambda_x &= \dfrac{x}{x_0} &\lambda_y &= \dfrac{y}{y_0}
+		&\lambda_z &= \dfrac{z}{z_0}
+	\end{align}
+	\label{eq:scalingf}
+\end{subequations}
+Since~\cite{KITAZAKI1997} does not report the anthropometric characteristics of
+the subject, they were estimated a-posteriori by searching through an Sequential
+Quadratic Programming optimisation algorithm the set $\mathbf{s}_0$ that
+minimises the mean square error of the distances between the estimated
+landmarks, obtained through the ribcage model, closer to the vertebr\ae
+transverse processes and their corresponding locations estimated from the data
+of Kitazaki and Griffin. The resulting reference subject is a 34 years old male,
+1.78 m tall and weighting 84 kilograms, for a BMI of approximately 26.5.
+
+Using as reference the \emph{normal} configuration found
+in~\cite{KITAZAKI1997}, the initial positions of nodes for the modelled subject
+are obtained by directly scaling their components with the coefficients
+$\lambda_i$.
+
+Stiffnesses are instead scaled comparing them to \emph{equivalent} lumped axial
+and bending stiffnesses as follows: 
+\begin{subequations}
+	\begin{align}
+		K_a' \sim \dfrac{EA'}{L'} 
+			& = \dfrac{EA\lambda_x\lambda_y}{L\lambda_z} 
+	\end{align}
+\end{subequations}
+
+\subsection{Validation with experimental result}
+
+\begin{table}[htbp]
+  \centering
+  
+    \begin{tabular}{lllll}
+    \textbf{Model} & \textbf{Age } & \textbf{Weight [Kg]} & \textbf{Stature [m]} & \textbf{BMI [kg/m\^2]} \\
+    \hline
+    \textbf{Min} & 33,7  & 54,88 & 1,591 & 21,681 \\
+    \textbf{Mean} & 33,7  & 69,5  & 1,71  & 23,768 \\
+    \textbf{Max} & 33,7  & 83,9  & 1,823 & 25,246 \\
+    \end{tabular}%
+    \caption{Antropometric parameters used for the comparison}
+  \label{tab:addlabel}%
+\end{table}%
+
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{\gfxdir scaling-no-backrest}
+	\caption{Comparison between the experimental apparent mass from \cite{TOWARD2011} and the FEM one}
+	\label{fig:scaling-no-backrest}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=\textwidth]{\gfxdir frf_3_axis}
+	\caption{Seat to head transmissibility in the three directions: comparison between experimental result of \cite{Mandapuram2012}
+	\label{fig:frf_3}}
+\end{figure}
+
+

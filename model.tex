@@ -1,0 +1,66 @@
+% Figure
+\begin{figure}[htbp]
+  \centering
+  \hfil
+  \includegraphics[width=.171\textwidth]{\gfxdir spine_arms.png}
+  \hfil
+  \def\svgwidth{.3\textwidth}
+  \input{\gfxdir vert_constr.eps_tex}
+  \hfil
+  \def\svgwidth{.3\textwidth}
+  \input{\gfxdir vert_visc_constr.eps_tex} 
+  \hfil
+  \caption{Algebraic and deformable constraints connecting vertebr\ae\ nodes, indicated with
+    	$V$, and viscer\ae\ nodes, indicated with $S$.}
+  \label{fig:example}
+\end{figure}
+
+The model comprises 34 rigid bodies associated with nodes (i.e.\ entities
+possessing degrees of freedom) placed in correspondence of vertebr\ae\ from S1 to C1, the
+head, and of 8 visceral masses elastically connected to vertebr\ae\ from S1 to T10.
+It follows the concepts proposed by Kitazaki and Griffin~\cite{KITAZAKI1997},
+but extends the modeling to a full 3D representation of the upper body dynamics,
+exploiting the database provided by Privitzer and
+Belytschko~\cite{BELYTSCHKO-1978-AF-33615-76-C-0506}, whose sagittal plane data
+was also used by Kitazaki and Griffin. 
+
+Each vertebral section node is located in the center of the corresponding
+vertebra's body, with axis $z$ aligned with the local tangent to the curve
+described by the spine longitudinal axis, axis $y$ directed laterally and axis
+$x$ pointing anteriorly (Cf. Fig.~\ref{fig:vertebra_RF}).
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=.3\textwidth]{\gfxdir vertebra_RF.png}
+	\caption{Each node related to a vertebral section is located in the
+	center of the corresponding vertebra's body, with axis $z$ along the
+	local tangent to the spine axis curve and axis $y$ poiting laterally.
+	\textcolor{red}{Figura non chiara: da rifare}}
+	\label{fig:vertebra_RF}
+\end{figure}
+
+The spine itself is composed of 25 vertebral nodes connected by 24 linear
+viscoelastic 3D elements, both acting on relative displacements and on relative
+rotations between adjacent nodes. The head and the Sacrum are considered rigid
+bodies and are also connected, respectively, to C1 and to L5 through a linear
+viscoelastic elements. 
+
+When restricted to the sagittal plane, vertebral nodes are connected to each other by
+algebraic constraints limiting their relative degrees of freedom to sliding along the
+spine axis and rotation about the lateral axis. When the model is used to perform
+3-dimensional simulation, all of the vertebr\ae\ nodes relative rotation degrees of freedom
+are unconstrained, while the translational constraints remain in place. 
+
+Masses of viscerae, below the diaphram, are included as 8 additional rigid
+bodies, connected to the corresponding vertebral nodes with linear viscoelastic
+elements, as well.
+
+The pelvic region is modeled taking into account the compliance of the buttocks
+tissue, by introducing two viscoelastic elements connecting the Sacrum with a
+node representing the mean interface point between the buttocks and the resting
+surface.
+
+Geometry and inertial parameters are adapted to represent a generic subject possessing
+the desired anthropometric characteristics of age, gender, stature and weight,
+as it will be described in detail in the next section.
+

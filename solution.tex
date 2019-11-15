@@ -1,0 +1,40 @@
+The spine model has been developed aiming at a high level of generality in its
+applications.  As an encompassing example, in the present work the solution
+phases needed to extract a reduced order model (ROM) for the evaluation of the
+upper body vertical vibration response of seated rotorcraft pilot/passengers
+will be outlined. The general procedure consists in several simulation steps: 
+
+\begin{enumerate}
+  \item an underdetermined inverse kinematics analysis that determines the pose
+    of the spine in relation with the imposed position of the head and of the
+    buttocks;
+  \vspace{-0.2em}
+  \item an inverse dynamics analysis that estimates the passive muscular
+    intervertebral moments;
+    \vspace{-0.2em}
+  \item a direct dynamics analysis aimed at estimating the effect of the active
+    muscular intervertebral moments;
+    \vspace{-0.2em}
+  \item an eigenanalysis, directly performed on the system of Differential-Algebraic Equations (DAE) system, to extract the ROM.
+\end{enumerate}
+
+To obtain a square problem in the kinematic inversion when solving for the 
+system's positions, a series of static problems are set up, in which \emph{dummy} springs
+act on the redundant degrees of freedom \cite{IK:FumagalliASME}. The
+stiffnesses of the springs act as penalty coefficients for the motion of the degrees of 
+freedom they are connected to. They can, for example, be crafted to minimize the norm 
+of the internal bending moment in the sagittal plane, due to weight.
+
+From the inverse kinematics analysis, the configuration of maximum ergonomy 
+of the spine is obtained. In the subsequent direct analysis, active muscular
+moments are estimated introducing simple controllers that
+introduce intervertebral axial forces and bending moments linearly proportional
+to the difference between the current vertebr\ae\ relative positions and the 
+maximum ergonomy configuration.
+
+Once the equilibrium position has been reached, an eigenanalysis is performed 
+to extract a ROM \cite{RIPEPI-2011} of the spine suitable for vibration analysis
+in the vertical direction, to be used in linearized, 
+comprehensive rotorcraft vibration analysis \cite{TAMER-2017-ERF}.
+Alternatively, the complete multibody model can be used in direct multibody 
+bioaeroservoelastic analysis of the system \cite{MASARATI-2015-ERF}.
